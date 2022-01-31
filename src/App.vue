@@ -1,41 +1,51 @@
 <template>
   <div id="app">
-    <nav-bar/>
-    <main-box :dischi="dischi"/>
+    <nav-bar />
+    <main-box v-if="apiLoader" :dischi="dischi" />
+    <loader v-else />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import MainBox from './components/MainBox.vue'
-import NavBar from './components/NavBar.vue'
-
+import axios from "axios";
+import MainBox from "./components/MainBox.vue";
+import NavBar from "./components/NavBar.vue";
+import Loader from "./components/Loader.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-   NavBar,
-    MainBox
+    NavBar,
+    MainBox,
+    Loader,
   },
 
-  data(){
-    return{
-      dischi : []
-    }
+  data() {
+    return {
+      dischi: [],
+      apiLoader: false,
+    };
   },
-  mounted(){
-    axios.get('https://flynn.boolean.careers/exercises/api/array/music').then((response) => {
-      this.dischi = response.data.response
-    })
-  }
-}
+  
+  mounted() {
+    setTimeout(() => {
+      axios
+        .get("https://flynn.boolean.careers/exercises/api/array/music")
+        .then((response) => {
+          this.dischi = response.data.response;
+          this.apiLoader = true;
+        });
+    }, 2000);
+  },
+};
 </script>
 
 <style lang="scss">
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 </style>

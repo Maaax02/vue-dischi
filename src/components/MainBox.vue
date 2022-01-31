@@ -20,12 +20,12 @@ export default {
 
 <style lang="scss" scoped>
  .container{
-     height: 875px;
-     background-color: #1E2D3B;
-     display: flex;
-     flex-wrap: wrap;
+    height: 875px;
+    background-color: #1E2D3B;
+    display: flex;
+    flex-wrap: wrap;
 
-     .container-dischi{
+    .container-dischi{
     margin: 20px auto;
     width: 1500px;
     display: flex;
