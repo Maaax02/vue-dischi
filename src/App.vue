@@ -1,28 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav-bar/>
+    <main-box :dischi="dischi"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
+import MainBox from './components/MainBox.vue'
+import NavBar from './components/NavBar.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+   NavBar,
+    MainBox
+  },
+
+  data(){
+    return{
+      dischi : []
+    }
+  },
+  mounted(){
+    axios.get('https://flynn.boolean.careers/exercises/api/array/music').then((response) => {
+      this.dischi = response.data.response
+    })
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>
