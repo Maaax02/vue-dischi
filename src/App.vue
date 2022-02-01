@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <nav-bar />
+    <nav-bar :disco="dischi" />
+    <select-genres :dischi="dischi"/>
     <main-box v-if="apiLoader" :dischi="dischi" />
     <loader v-else />
   </div>
@@ -9,8 +10,11 @@
 <script>
 import axios from "axios";
 import MainBox from "./components/MainBox.vue";
+import SelectGenres from "./components/SelectGenres.vue";
 import NavBar from "./components/NavBar.vue";
 import Loader from "./components/Loader.vue";
+
+
 
 export default {
   name: "App",
@@ -18,6 +22,7 @@ export default {
     NavBar,
     MainBox,
     Loader,
+    SelectGenres
   },
 
   data() {
@@ -35,7 +40,7 @@ export default {
           this.dischi = response.data.response;
           this.apiLoader = true;
         });
-    }, 2000);
+    }, 100);
   },
 };
 </script>
