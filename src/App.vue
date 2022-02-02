@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav-bar :disco="dischi" />
-    <select-genres :dischi="dischi"/>
-    <main-box v-if="apiLoader" :dischi="dischi" />
+    <select-genres @search="filterDisc" :dischi="dischi" :genere="notDuplicatedGenre"/>
+    <main-box v-if="apiLoader" :dischi="genres" />
     <loader v-else />
   </div>
 </template>
@@ -29,7 +29,31 @@ export default {
     return {
       dischi: [],
       apiLoader: false,
+      genres:[]
     };
+  },
+
+computed:{
+
+  notDuplicatedGenre(){
+    let genere = [];
+    this.dischi.forEach((element) => {
+      if(!genere.includes(element.genre.toLowerCase())){
+        genere.push(element.genre.toLowerCase())
+      }
+    })
+    return genere;
+  },
+},
+
+  methods:{
+   
+
+    filterDisc(genre){
+      this.genres = this.dischi.filter((disc) => {
+        return disc.genre.toLowerCase() === genre || genre === 'all';
+      })
+    }
   },
   
   mounted() {
@@ -38,9 +62,10 @@ export default {
         .get("https://flynn.boolean.careers/exercises/api/array/music")
         .then((response) => {
           this.dischi = response.data.response;
-          this.apiLoader = true;
+          this.apiLoader = true;   
+          this.genres = response.data.response;      
         });
-    }, 100);
+    }, 1000);
   },
 };
 </script>
@@ -52,5 +77,8 @@ export default {
   box-sizing: border-box;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
+ } 
+ #app{
+   background-color: #18D860;
+ }
 </style>
